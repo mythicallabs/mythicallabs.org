@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs')
 const app = express();
 
-app.get('/', (req, res) => res.send('<h1>Mythical Labs</h1>'));
+app.get('/', (req, res) => res.send(fs.readFileSync('./pages/index.html')));
 
 const port = process.env.PORT || 3000;
 
