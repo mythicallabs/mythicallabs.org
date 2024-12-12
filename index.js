@@ -1,8 +1,9 @@
 const express = require('express');
 const fs = require('fs')
 const app = express();
-
-app.get('/', (req, res) => res.send(fs.readFileSync('./pages/index.html')));
+const path = require('path')
+let pagesPath = path.join(process.cwd(), '/pages');
+app.get('/', (req, res) => res.send(fs.readFileSync(process.cwd() + '/pages/index.html')));
 
 const port = process.env.PORT || 3000;
 
