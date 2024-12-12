@@ -8,10 +8,11 @@ app.get('/', (req, res) => {
 });
 
 const options = {
-    key: fs.readFileSync('path/to/your/key.pem'),
-    cert: fs.readFileSync('path/to/your/cert.pem')
+  port: 443,
+  path: '/todos/1',
+  method: 'GET'
 };
 
-https.createServer(options, app).listen(3000, () => {
+https.createServer(options, app).listen(443, () => {
     console.log('Server is running on https://localhost:3000');
 });
