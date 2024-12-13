@@ -2,10 +2,20 @@ const express = require('express');
 const fs = require('fs')
 const app = express();
 const path = require('path')
-let pagesPath = path.join(process.cwd(), '/pages/index.html');
+let indexpath = path.join(process.cwd(), '/pages/index.html');
 app.get('/', (req, res) => {
     res.set('Content-Type', 'text/html');
-    res.send(fs.readFileSync(pagesPath))
+    res.send(fs.readFileSync(indexpath));
+})
+app.get('/:page', (req, res) => {
+    let page = req.params.page;
+        try{
+            res.set('Content-Type', 'text/html');
+            res.send(fs.readFileSync(path.join(process.cwd(), '/pages/', page +'.html')));
+        }catch(err){
+            res.set('Content-Type', 'text/html');
+            res.send(fs.readFileSync(path.join(process.cwd(), '/pages/404.html')))
+        }
 });
 app.get('/lib/:filetype/:filename', (req, res) => {
     let filename = req.params.filename;
