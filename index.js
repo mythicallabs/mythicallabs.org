@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 app.get('/lib/:filetype/:filename', (req, res) => {
     let filename = req.params.filename;
     let filetype = req.params.filetype;
-    let filePath = path.join(process.cwd(), `/libs/${filename}`);
+    let filePath = path.join(process.cwd(), `/pages/libs/${filename}`);
     if(filetype == 'js'){
         res.set('Content-Type', 'application/javascript');
     }else{
