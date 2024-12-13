@@ -11,6 +11,11 @@ nav{
     color: #dddddd;
 }
 .navactive{
+    float: left;
+    padding: 20px 30px 10px 30px;
+    height: 40px;
+    font-size: 1.5em;
+    text-decoration: none;
     background-color: #3a4add;
 }
 .navitem:hover{
