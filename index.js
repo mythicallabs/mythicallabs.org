@@ -22,13 +22,17 @@ app.get('/:page', (req, res) => {
         }
 });
 app.get('/lib/:filetype/:filename', (req, res) => {
-    let filename = req.params.filename;
-    let filetype = req.params.filetype;
-    let filePath = path.join(process.cwd(), `/pages/libs/${filename}`);
+    const filename = req.params.filename;
+    const filetype = req.params.filetype;
     if(filetype == 'js'){
         res.set('Content-Type', 'application/javascript');
-    }else{
+        let filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
+    }else if(filetype == 'css'){
         res.set('Content-Type', 'text/css');
+        let filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
+    }else if(filetype == 'jpeg'){
+        res.set('Content-Type', 'image/jpeg');
+        let filePath = path.join(process.cwd(), `/images/${filename}`)
     }
     res.send(fs.readFileSync(filePath))
 })
