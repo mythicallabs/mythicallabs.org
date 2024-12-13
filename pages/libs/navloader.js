@@ -1,4 +1,4 @@
 $("#navout").load("/navbar .nav");
-page = "#" + window.location.href.split("/").pop()
+page = "#nav" + window.location.href.split("/").pop()
 alert(page)
-$(page).addClass("navactive")
+$(page).addClass(".navactive")
