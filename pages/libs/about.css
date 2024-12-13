@@ -28,3 +28,9 @@ hr{
     border-radius: 30px / 35px;
     width: 45%;
 }
+h1{
+    line-height: 0.5em;
+}
+p{
+    line-height: 1em;
+}
