@@ -21,18 +21,18 @@ app.get('/:page', (req, res) => {
             res.send(fs.readFileSync(path.join(process.cwd(), '/pages/404.html')))
         }
 });
-app.get('/lib/:filetype/:filename', (req, res) => {
+app.get('/file/:filetype/:filename', (req, res) => {
     const filename = req.params.filename;
     const filetype = req.params.filetype;
     if(filetype == 'js'){
         res.set('Content-Type', 'application/javascript');
-        let filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
+        filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
     }else if(filetype == 'css'){
         res.set('Content-Type', 'text/css');
-        let filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
+        filePath = path.join(process.cwd(), `/pages/libs/${filename}`)
     }else if(filetype == 'jpeg'){
         res.set('Content-Type', 'image/jpeg');
-        let filePath = path.join(process.cwd(), `/images/${filename}`)
+        filePath = path.join(process.cwd(), `/images/${filename}`)
     }
     res.send(fs.readFileSync(filePath))
 })
