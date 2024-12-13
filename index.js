@@ -7,6 +7,10 @@ app.get('/', (req, res) => {
     res.set('Content-Type', 'text/html');
     res.send(fs.readFileSync(indexpath));
 })
+app.get('/favicon.ico', (req, res) => {
+    res.set('Content-Type', 'image/x-icon');
+    res.send(fs.readFileSync(path.join(process.cwd(), 'favicon.ico')))
+})
 app.get('/:page', (req, res) => {
     let page = req.params.page;
         try{
