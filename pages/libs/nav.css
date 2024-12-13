@@ -10,13 +10,13 @@ nav{
     text-decoration: none;
     color: #dddddd;
 }
-.active{
+.navactive{
     background-color: #3a4add;
 }
 .navitem:hover{
     background-color: #222;
 }
-.active:hover{
+.navactive:hover{
     background-color: #3a4add;
 }
 @media (max-width: 600px) {
