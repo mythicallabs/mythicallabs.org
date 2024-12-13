@@ -1,0 +1,1 @@
+$("#navout").load("/navbar .nav");
