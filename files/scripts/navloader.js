@@ -1,5 +1,9 @@
 async function addNav(){
-    $("#navout").load("/navbar .nav");
+    var navId = "a#nav" + window.location.href.split('/').pop();
+    $("#navout").load(`/navbar/${navId} .nav`);
+    for(i=0;i<50;){
+        setTimeout(setactivenav(), 100)
+    }
     setTimeout(setactivenav(), 300)
 }
 function setactivenav(){
