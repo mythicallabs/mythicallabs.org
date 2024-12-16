@@ -9,6 +9,5 @@
 html, body {
     margin: 0;
     background-color: var(--background-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: scroll;
+    font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
 }
