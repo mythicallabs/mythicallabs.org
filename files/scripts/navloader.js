@@ -1,18 +1,21 @@
 async function addNav(){
-    var navId = "a#nav" + window.location.href.split('/').pop();
-    $("#navout").load(`/navbar/${navId} .nav`);
-}
-function setactivenav(){
-    var navId = "a#nav" + window.location.href.split('/').pop();
-    if(navId == "a#nav"){
-        setTimeout(() => {
-            var navId = "a#navhome";
-            $(navId).addClass('navactive');
-        }, 100)
-    }else{
-        setTimeout(() => {
-            $(navId).addClass('navactive');
-        }, 100)
+    let navId = "#nav" + window.location.href.split('/').pop();
+    if(navId == '#nav'){
+        navId = '#navhome';
     }
+    await $("#navout").load(`/navbar .nav`);
+    document.head.innerHTML = document.head.innerHTML + `<style>
+    ${navId}{
+        float: left;
+        padding: 20px 30px 10px 30px;
+        height: 40px;
+        font-size: 1.5em;
+        text-decoration: none;
+        background-color: #3a4add;
+    }
+    ${navId}:hover{
+        background-color: #3a4add;
+    }
+    </style>`
 }
 addNav()
