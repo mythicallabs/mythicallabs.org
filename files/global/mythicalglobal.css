@@ -7,7 +7,19 @@
     --button-hover-color: #e94560; /* Button color on hover */
 }
 html, body {
+    min-width: ;
     margin: 0;
     background-color: var(--background-color);
     font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
+}
+html{
+    background-color: #333;
+    font-family: sans-serif;
+}
+body{
+    background-color: #dddddd;
+    min-height: 100vh;
+    width: 100vw;
+    height: 100%;
+    overflow-x: hidden;
 }
