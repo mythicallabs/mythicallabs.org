@@ -7,7 +7,6 @@
     --button-hover-color: #e94560; /* Button color on hover */
 }
 html, body {
-    min-width: ;
     margin: 0;
     background-color: var(--background-color);
     font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
