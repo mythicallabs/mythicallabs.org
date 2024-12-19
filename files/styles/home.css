@@ -1,0 +1,37 @@
+html{
+    background-color: #333;
+    font-family: sans-serif;
+}
+body{
+    background-color: #dddddd;
+    width: 100vw;
+    height: 100%;
+}
+.mainbody{
+    padding: 10px 20px 20px 20px;
+    font-size: 1.5em;
+}
+hr{
+    border: #6d6d6d solid 0.5px;
+    width: 50%;
+    float: left;
+}
+.aboutbox{
+    line-height: 0.5em;
+    border: #ffffff solid 1px;
+    background-color: #eeeeee;
+    padding: 3px 18px;
+    border-radius: 30px / 35px;
+    width: 45%;
+}
+h1{
+    line-height: 0.5em;
+}
+p{
+    line-height: 1em;
+}
+@media (max-width: 600px) {
+    .aboutbox{
+        width: calc(100% - 38px);
+    }
+}
