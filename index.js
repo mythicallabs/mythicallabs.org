@@ -10,19 +10,17 @@ app.get('/favicon.ico', (req, res) => {
     res.set('Content-Type', 'image/x-icon');
     res.send(fs.readFileSync(path.join(process.cwd(), '/favicon.ico')))
 })
-app.get('/devmsg?from', (req, res) => {
+app.get('/devmsg', (req, res) => {
     from = req.query.from;
-    const filePath = path.join(process.cwd(), '/files/pages/devmsg.html');
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(500).send('Error reading file');
-        }
-        let modifiedData = data.replace(`<button class="button" onclick="window.location.href = '/about'">Learn More</button>`, `<button class="button" onclick="window.location.href = '/${from}'">Learn More</button>`);
-        res.send(modifiedData);
-    });
-    const lastpage = req.query.from;
-    res.set('Content-Type', 'text/html');
-    res.send(fs.readFileSync(path.join(process.cwd(), '/files/pages/devmsg.html')));
+        const filePath = path.join(process.cwd(), '/files/pages/devmsg.html');
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                return res.status(500).send('Error reading file');
+            }
+            let modifiedData = data.replace(`<button class="button" onclick="window.location.href = '/about'">Back to</button>`, `<button class="button" onclick="window.location.href = '/${from}'">Back to ${from}</button>`);
+            res.set('Content-Type', 'text/html');
+            res.send(modifiedData);
+        });
 })
 app.get('/:page', (req, res) => {
     let page = req.params.page;
