@@ -45,7 +45,7 @@ app.get('/projects/:projectname/:projectpage', (req, res) => {
     }
     try{
         res.set('Content-Type', 'text/html')
-        res.send(fs.readFileSync(path.join(process.cwd(), '/files/pages/projects/', projectname, '/', projectpage, '.html')))
+        res.send(fs.readFileSync(path.join(process.cwd(), '/files/pages/projects/' + projectname + '/' + projectpage + '.html')))
     }catch(err){
         res.set('Content-Type', 'text/html')
         deliver404error(req, res, err, 'Back to', 'projects')

@@ -1,12 +1,15 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
 html{
     background-color: #333;
-    font-family: sans-serif;
 }
 body{
     background-color: #dddddd;
     width: 100vw;
     height: 100%;
-    text-align: center;
 }
 hr{
     border: #6d6d6d solid 0.5px;
@@ -23,8 +26,8 @@ hr{
     text-align: left;
 }
 h1{
-    line-height: 0.5em;
     text-align: center;
+    line-height: 0.5em;
 }
 p{
     line-height: 1em;
