@@ -22,3 +22,18 @@ body{
     height: 100%;
     overflow-x: hidden;
 }
+bodycont{
+    padding: 10px 20px 20px 20px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 600px) {
+    bodycont{
+        padding: 20px 20px 20px 20px;
+        font-size: 1.5em;
+        align-items: normal;
+        justify-content: left;
+    }
+}

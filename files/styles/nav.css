@@ -24,10 +24,25 @@ nav{
 .navactive:hover{
     background-color: #3a4add;
 }
+.navsearch{
+    font-size: 1.5em;
+    margin: 17px;
+    border: none;
+    border-bottom: grey solid 1px;
+    background-color: #333;
+    outline: none;
+    color: gray;
+}
+.navsearch:focus{
+    color: #dddddd;
+}
 @media (max-width: 600px) {
     nav{
         overflow: scroll;
         scrollbar-width: 0px;
         display: flex;
+    }
+    .navsearch{
+        display: none;
     }
 }
