@@ -10,6 +10,10 @@ app.get('/favicon.ico', (req, res) => {
     res.set('Content-Type', 'image/x-icon');
     res.send(fs.readFileSync(path.join(process.cwd(), '/favicon.ico')))
 })
+app.get('/pay', (req, res) => {
+    res.set('Content-Type', 'text/html');
+    res.send(`<html><script>window.location.href = '/couldhavebeenhacked'</script></html>`);
+})
 app.get('/devmsg', (req, res) => {
     from = req.query.from;
         const filePath = path.join(process.cwd(), '/files/pages/devmsg.html');
