@@ -32,6 +32,11 @@ app.get('/photography', (req, res) => {
         deliver404error(req, res, err, 'Back to', 'homepage')
     }
 })
+app.get('/search', (req, res) => {
+    if(req.query.q){
+        
+    }
+})
 app.get('/:page', (req, res) => {
     let page = req.params.page;
         try{
