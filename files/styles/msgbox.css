@@ -16,7 +16,7 @@ html, body {
     align-items: center;
     justify-content: center;
     background-color: var(--background-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
     padding: 10px; /* Add some padding for mobile */
     overflow: hidden;
 }
