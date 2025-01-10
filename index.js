@@ -36,7 +36,7 @@ app.get('/photography', (req, res) => {
 app.get('/pdata', (req, res) => {
     try{
         res.set('Content-Type', 'application/json')
-        res.json(JSON.stringify(fs.readFileSync(path.join(process.cwd(), '/files/photography/photos/photos.json'))))
+        res.send(JSON.stringify(fs.readFileSync(path.join(process.cwd(), '/files/photography/photos/photos.json'))))
     }catch(err){
         res.set('Content-Type', 'application/json')
         res.status(404).send('404 Not Found')
