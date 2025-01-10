@@ -3,6 +3,7 @@ const fs = require('fs');
 const { console } = require('inspector');
 const app = express();
 const path = require('path')
+app.use(express.json());
 app.get('/', (req, res) => {
     res.set('Content-Type', 'text/html');
     res.send(fs.readFileSync(path.join(process.cwd(), '/files/pages/base/index.html')));

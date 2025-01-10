@@ -12,10 +12,10 @@
         "amount":1,
         "post":[
             {"title":"Pirate Ship", "body":"Photos from the Vallarta Pirate Ship","amo":4, "photos":[
-                {"id":"0001"},
-                {"id":"0002"},
-                {"id":"0003"},
-                {"id":"0004"}
+                {"id":"1"},
+                {"id":"2"},
+                {"id":"3"},
+                {"id":"4"}
             ]}
         ]
     }
