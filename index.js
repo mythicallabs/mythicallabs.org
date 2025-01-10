@@ -101,18 +101,13 @@ app.get('/photography/:page', (req, res) => {
 })
 app.get('/photography/photo/:photo', (req, res) => {
     const photo = req.params.photo
-    if(photo == ''){
-        res.set('Content-Type', 'text/html')
-        deliver404error(req, res, err, 'Back to', 'photography', 'We couldnt find that photo')
-    }
     try{
-        res.set('Content-Type', 'text/html')
-        if(type == 0){
-            res.send(fs.readFileSync(path.join(process.cwd(), '/files/photography/photos/' + photo + type)))
-        }
+        res.set('Content-Type', 'image/jpeg');
+        filepath = path.join(process.cwd(), `/files/photography/photos/${photo}`)
+        res.send(fs.readFileSync(filePath))
     }catch(err){
         res.set('Content-Type', 'text/html')
-        deliver404error(req, res, err, 'Back to', 'projects')
+        deliver404error(req, res, err, 'Back to', 'photography', 'We couldnt find that photo')
     }
 })
 app.get('/file/:filetype/:filename', (req, res) => {
