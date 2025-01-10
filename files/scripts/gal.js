@@ -12,5 +12,3 @@ async function a(){
     });
 }
 a()
-//kmicheva@cps.edu
-//0813Kinmich27?
