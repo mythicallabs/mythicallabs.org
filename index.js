@@ -113,6 +113,9 @@ app.get('/file/:filetype/:filename', (req, res) => {
     }else if(filetype == 'jpeg'){
         res.set('Content-Type', 'image/jpeg');
         filePath = path.join(process.cwd(), `/files/images/${filename}`)
+    }else if(filetype == 'png'){
+        res.set('Content-Type', 'image/png');
+        filePath = path.join(process.cwd(), `/files/images/${filename}`)
     }
     res.send(fs.readFileSync(filePath))
 })
