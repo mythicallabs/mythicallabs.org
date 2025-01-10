@@ -36,9 +36,22 @@ app.get('/photography', (req, res) => {
 })
 app.get('/pdata', (req, res) => {
     try{
-        res.set('Content-Type', 'application/json')
-        res.send(JSON.stringify(fs.readFileSync(path.join(process.cwd(), '/files/photography/photos/photos.json'))))
-    }catch(err){
+        fs.readFile(path.join(process.cwd(), '/files/photography/photos/photos.json'), 'utf8', (err, data) => {
+            if (err) {
+              console.error('Error reading file:', err);
+              res.status(500).send('Internal Server Error');
+              return;
+            }
+            try {
+              const jsonData = JSON.parse(data);
+              res.set('Content-Type', 'application/json')
+              res.json(jsonData);
+            } catch (err) {
+              console.error('Error parsing JSON:', err);
+              res.status(500).send('Internal Server Error');
+            }
+          });
+        }catch(err){
         res.set('Content-Type', 'application/json')
         res.status(404).send('404 Not Found')
         console.log("CRIT ERROR: PHOTOS JSON NOT FOUND")
