@@ -1,5 +1,6 @@
 const express = require('express');
-const fs = require('fs')
+const fs = require('fs');
+const { console } = require('inspector');
 const app = express();
 const path = require('path')
 app.get('/', (req, res) => {
@@ -30,6 +31,16 @@ app.get('/photography', (req, res) => {
     }catch(err){
         res.set('Content-Type', 'text/html')
         deliver404error(req, res, err, 'Back to', 'homepage')
+    }
+})
+app.get('/pdata', (req, res) => {
+    try{
+        res.set('Content-Type', 'application/json')
+        res.json(fs.readFileSync(path.join(process.cwd(), '/files/photography/photos/photos.json')))
+    }catch(err){
+        res.set('Content-Type', 'application/json')
+        res.status(404).send('404 Not Found')
+        console.log("CRIT ERROR: PHOTOS JSON NOT FOUND")
     }
 })
 app.get('/search', (req, res) => {
