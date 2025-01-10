@@ -32,6 +32,10 @@ h1{
 p{
     line-height: 1em;
 }
+.galleryimage{
+    max-width: 100%;
+    border-radius: 25px;
+}
 @media (max-width: 600px) {
     .textbox{
         width: calc(100% - 38px);
