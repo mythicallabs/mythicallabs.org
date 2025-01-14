@@ -3,11 +3,12 @@
         "/",
         "/projects",
         "/about",
-        ""
+        "/photography/gallery"
     ],
     "keywords":[
         "home",
         "projects",
-        "about"
+        "about",
+        "gallery"
     ]
 }
