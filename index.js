@@ -104,13 +104,12 @@ app.get('/photography/photo/:photo', (req, res) => {
     try{
         res.set('Content-Type', 'image/jpeg');
         filepath = path.join(process.cwd(), `/files/photography/photos/${photo}`)
-        const scaleByHalf = sharp(fs.readFileSync(filepath))
-                            .metadata()
-                            .then(({ width }) => sharp(fs.readFileSync(filepath))
-                                .resize(Math.round(width * 0.5))
-                                .toBuffer()
-                            );
-        res.send(scaleByHalf)
+        sharp(fs.readFileSync(filePath))
+        .resize({ width: 100 })
+        .toBuffer()
+        .then(data => {
+            res.send(data)
+        });
     }catch(err){
         res.set('Content-Type', 'text/html')
         deliver404error(req, res, err, 'Back to', 'photography', 'We couldnt find that photo')
