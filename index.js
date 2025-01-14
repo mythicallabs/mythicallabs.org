@@ -3,6 +3,7 @@ const fs = require('fs');
 const { console } = require('inspector');
 const app = express();
 const path = require('path')
+const sharp = require('sharp')
 app.use(express.json());
 app.get('/', (req, res) => {
     res.set('Content-Type', 'text/html');
