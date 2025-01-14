@@ -104,10 +104,7 @@ app.get('/photography/photo/:photo', (req, res) => {
     try{
         res.set('Content-Type', 'image/jpeg');
         filepath = path.join(process.cwd(), `/files/photography/photos/${photo}`)
-        sharp(fs.readFileSync(filePath))
-        .resize({ width: 100 })
-        .toBuffer()
-        .then(data => {
+        sharp(fs.readFileSync(filePath)).resize({ width: 100 }).toBuffer().then(data => {
             res.send(data)
         });
     }catch(err){
