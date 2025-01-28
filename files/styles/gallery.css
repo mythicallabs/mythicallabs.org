@@ -22,7 +22,7 @@ hr{
     background-color: #eeeeee;
     padding: 3px 18px;
     border-radius: 30px / 35px;
-    width: 45%;
+    width: 100%;
     text-align: left;
 }
 h1{
@@ -35,12 +35,15 @@ p{
 .galleryimage{
     max-width: 100%;
     border-radius: 25px;
-    margin-bottom: 20px;
+    height:300px;
+    margin: 5px;
+}
+.galleryimage:hover{
+    box-shadow: 0 0 30px #818181;
 }
 .pageselector.text{
     display: inline-block;
     margin: 5px 10px;
-
 }
 .pageselector.button{
     display: inline-block;

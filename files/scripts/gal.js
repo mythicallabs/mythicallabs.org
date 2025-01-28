@@ -28,4 +28,7 @@ async function frontone(){
         }
     });
 }
+async function name(params) {
+    
+}
 a()
