@@ -28,7 +28,22 @@ async function frontone(){
         }
     });
 }
-async function name(params) {
-    
+async function backone(){
+    if(p == 2){
+    document.getElementById('photosout').innerHTML = "";
+    await fetch('/pdata', { 
+        method: 'GET'
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(json) {
+        for(i=json.server.amount; 1 <= i; i--){
+            let org = document.getElementById('photosout').innerHTML
+            let mod = org + `<img src='/photography/photo/${i}.jpg' class='galleryimage'>`
+            document.getElementById('photosout').innerHTML = mod
+        }
+    });
+}
+p--
+document.getElementById('pageno').innerHTML = p;
 }
 a()
