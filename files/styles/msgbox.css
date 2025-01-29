@@ -23,7 +23,7 @@ html, body {
 
 .devmsg {
     background: var(--card-background);
-    padding: 15px; /* Adjust padding for mobile */
+    padding: 20px; /* Adjust padding for mobile */
     border-radius: 34px / 30px; /* Adjust border radius for mobile */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -43,6 +43,7 @@ p {
     font-size: 1.3em; /* Adjust font size for mobile */
     line-height: 1.2em;
     margin-bottom: 20px; /* Adjust margin for mobile */
+    margin-top: 0;
 }
 
 .button {
@@ -82,6 +83,6 @@ p {
     }
     .devmsg{
         padding-top: 0px;
-        max-width: 70vw;
+        max-width: 50vw;
     }
 }
