@@ -58,4 +58,8 @@ p{
     .textbox{
         width: calc(100% - 38px);
     }
+    .galleryimage{
+        width: 100%;
+        height: auto;
+    }
 }

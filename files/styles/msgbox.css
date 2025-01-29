@@ -16,7 +16,7 @@ html, body {
     align-items: center;
     justify-content: center;
     background-color: var(--background-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
     padding: 10px; /* Add some padding for mobile */
     overflow: hidden;
 }
@@ -62,20 +62,6 @@ p {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 600px) {
-    h1 {
-        font-size: 1.5em; /* Smaller font size for mobile */
-    }
-
-    p {
-        font-size: 0.9em; /* Smaller font size for mobile */
-    }
-
-    .button {
-        padding: 8px 12px; /* Smaller button padding for mobile */
-    }
-    .devmsg{
-        padding-top: 0px;
-    }
 }
 
 /* Larger size for non-mobile devices */

@@ -23,14 +23,13 @@ hr{
 .project:hover{
     border: #888888 solid 1px;
     background-color: #f5f5f5;
-    padding: 3px 18px;
     border-radius: 30px / 35px;
     box-shadow: 0 0 17px#d1d1d1;
 }
 .project {
     display: flex;
     align-items: center;
-    padding: 3px 18px;
+    padding: 15px 18px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
     border-radius: 30px / 35px;
@@ -42,11 +41,19 @@ hr{
     height: auto;
     margin-right: 10px; /* Space between the image and the text */
 }
-
 .project-text {
     display: flex;
     flex-direction: column;
-    line-height: 0.1px; /* Adjust the line height to reduce space between lines */
+}
+.project-text {
+    display: flex;
+    flex-direction: column;
+}
+h3{
+    margin: 5px;
+}
+p{
+    margin: 5px;
 }
 /* Media Queries for Responsiveness */
 @media (max-width: 600px) {
