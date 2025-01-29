@@ -56,18 +56,3 @@ p {
     transform: scale(1.05);
     box-shadow: 0 0 15px var(--accent-color);
 }
-
-/* Media Queries for Responsiveness */
-@media (max-width: 600px) {
-}
-
-/* Larger size for non-mobile devices */
-@media (min-width: 601px) {
-    .button {
-        padding: 12px 20px; /* Larger button padding for larger screens */
-    }
-    .devmsg{
-        padding-top: 0px;
-        max-width: 20vw;
-    }
-}
