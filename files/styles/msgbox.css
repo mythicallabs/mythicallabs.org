@@ -39,7 +39,7 @@ h1 {
 
 p {
     color: var(--text-color);
-    font-size: 1em; /* Adjust font size for mobile */
+    font-size: 1.3em; /* Adjust font size for mobile */
     margin-bottom: 20px; /* Adjust margin for mobile */
 }
 
