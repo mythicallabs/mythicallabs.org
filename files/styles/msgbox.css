@@ -39,7 +39,8 @@ h1 {
 
 p {
     color: var(--text-color);
-    font-size: 1.3em; /* Adjust font size for mobile */
+    font-size: 1.5em; /* Adjust font size for mobile */
+    line-height: 1em;
     margin-bottom: 20px; /* Adjust margin for mobile */
 }
 
@@ -71,7 +72,7 @@ p {
     }
 
     p {
-        font-size: 1.3em; /* Larger font size for larger screens */
+        font-size: 1.5em; /* Larger font size for larger screens */
     }
 
     .button {
