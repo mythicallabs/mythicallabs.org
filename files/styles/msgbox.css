@@ -41,7 +41,7 @@ h1 {
 p {
     color: var(--text-color);
     font-size: 1.3em; /* Adjust font size for mobile */
-    line-height: 1.3em;
+    line-height: 1.2em;
     margin-bottom: 20px; /* Adjust margin for mobile */
 }
 
@@ -70,6 +70,7 @@ p {
 @media (min-width: 601px) {
     h1 {
         font-size: 3em; /* Larger font size for larger screens */
+        margin-top: 10px;
     }
 
     p {
