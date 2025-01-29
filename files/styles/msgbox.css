@@ -33,13 +33,11 @@ html, body {
 
 h1 {
     color: var(--accent-color);
-    font-size: 2em; /* Adjust font size for mobile */
     margin-bottom: 15px; /* Adjust margin for mobile */
 }
 
 p {
     color: var(--text-color);
-    font-size: 1em; /* Adjust font size for mobile */
     margin-bottom: 20px; /* Adjust margin for mobile */
 }
 
@@ -49,7 +47,6 @@ p {
     padding: 10px 15px; /* Adjust padding for mobile */
     border: none;
     border-radius: 15px / 12px; /* Adjust border radius for mobile */
-    font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -66,14 +63,6 @@ p {
 
 /* Larger size for non-mobile devices */
 @media (min-width: 601px) {
-    h1 {
-        font-size: 3em; /* Larger font size for larger screens */
-    }
-
-    p {
-        font-size: 1.3em; /* Larger font size for larger screens */
-    }
-
     .button {
         padding: 12px 20px; /* Larger button padding for larger screens */
     }
