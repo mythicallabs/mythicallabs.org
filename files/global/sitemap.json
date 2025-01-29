@@ -1,0 +1,14 @@
+{
+    "pages":[
+        "/",
+        "/projects",
+        "/about",
+        "/photography/gallery"
+    ],
+    "keywords":[
+        "home",
+        "projects",
+        "about",
+        "gallery"
+    ]
+}

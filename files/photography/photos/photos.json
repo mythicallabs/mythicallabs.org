@@ -1,0 +1,22 @@
+{
+    "server":{
+        "amount":7,
+        "photos":[
+            {"name":"Pirate Drinking", "takenby":"mythicallabs", "cat":"Mexico 24"},
+            {"name":"Pirate With arms up", "takenby":"mythicallabs", "cat":"Mexico 24"},
+            {"name":"Pirate Drinking", "takenby":"mythicallabs", "cat":"Mexico 24"},
+            {"name":"Pirate Drinking", "takenby":"mythicallabs", "cat":"Mexico 24"}
+        ]
+    },
+    "feed":{
+        "amount":1,
+        "post":[
+            {"title":"Pirate Ship", "body":"Photos from the Vallarta Pirate Ship","amo":4, "photos":[
+                {"id":"1"},
+                {"id":"2"},
+                {"id":"3"},
+                {"id":"4"}
+            ]}
+        ]
+    }
+}

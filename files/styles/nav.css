@@ -36,11 +36,27 @@ nav{
 .navsearch:focus{
     color: #dddddd;
 }
+.navarrow.right{
+    display: none;
+}
 @media (max-width: 600px) {
+    .navarrow.right{
+        display: unset;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 70px;
+    }
     nav{
-        overflow: scroll;
+        overflow-x: scroll;
+        overflow-y: hidden;
         scrollbar-width: 0px;
         display: flex;
+    }
+    ::-webkit-scrollbar {
+        height: 0px;
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
     }
     .navsearch{
         display: none;

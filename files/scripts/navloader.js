@@ -1,5 +1,6 @@
 async function addNav(){
     let navId = "#nav" + window.location.href.split('/').pop();
+    console.log(navId)
     if(navId == '#nav'){
         navId = '#navhome';
     }

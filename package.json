@@ -1,6 +1,6 @@
 {
 	"name": "mythicallabs.org",
-	"version": "0.4.5",
+	"version": "1.7.0[DEV]",
 	"description": "Server for mythicallabs.org",
 	"main": "index.js",
 	"scripts": {
@@ -11,6 +11,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.21.2",
-		"path": "^0.12.7"
+		"path": "^0.12.7",
+		"sharp": "^0.33.5"
 	}
 }
