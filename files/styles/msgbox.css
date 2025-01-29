@@ -23,7 +23,7 @@ html, body {
 
 .devmsg {
     background: var(--card-background);
-    padding: 20px; /* Adjust padding for mobile */
+    padding: 10px; /* Adjust padding for mobile */
     border-radius: 34px / 30px; /* Adjust border radius for mobile */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -33,13 +33,14 @@ html, body {
 
 h1 {
     color: var(--accent-color);
-    font-size: 2em; /* Adjust font size for mobile */
+    font-size: 2.7em; /* Adjust font size for mobile */
     margin-bottom: 15px; /* Adjust margin for mobile */
 }
 
 p {
     color: var(--text-color);
-    font-size: 1em; /* Adjust font size for mobile */
+    font-size: 1.3em; /* Adjust font size for mobile */
+    line-height: 1em;
     margin-bottom: 20px; /* Adjust margin for mobile */
 }
 
@@ -49,7 +50,7 @@ p {
     padding: 10px 15px; /* Adjust padding for mobile */
     border: none;
     border-radius: 15px / 12px; /* Adjust border radius for mobile */
-    font-size: 1em;
+    font-size: 1.3em;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -71,7 +72,7 @@ p {
     }
 
     p {
-        font-size: 1.3em; /* Larger font size for larger screens */
+        font-size: 1.5em; /* Larger font size for larger screens */
     }
 
     .button {
@@ -79,6 +80,6 @@ p {
     }
     .devmsg{
         padding-top: 0px;
-        max-width: 20vw;
+        max-width: 70vw;
     }
 }
