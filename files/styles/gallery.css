@@ -35,7 +35,6 @@ p{
 .galleryimage{
     width: calc(25% - 10px);
     border-radius: 25px;
-    height:300px;
     margin: 5px;
 }
 .galleryimage:hover{
