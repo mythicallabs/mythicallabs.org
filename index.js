@@ -114,10 +114,8 @@ app.get('/photography/photo/:photo', async (req, res) => {
                 deliver404error(req, res, err, 'Back to', 'photography', `There was an error loading that photo`);
             }
         }else if(htl == 'rendered'){
-            const orgpage = fs.readFileSync(path.join(process.cwd(), '/files/photography/pages/renderedphoto.html'))
-            const newpage = orgpage.replace('<IMAGEPLACEHOLDER>', `<img src="/photography/photo/${photo}">`)
             res.set('Content-Type', 'text/html');
-            res.send(newpage)
+            res.send(fs.readFile(path.join(process.cwd(), '/files/photography/pages/renderedphoto.html')).replace('<IMAGEPLACEHOLDER>', `<img src="/photography/photo/${photo}">`))
         }
     }else{
         try {
