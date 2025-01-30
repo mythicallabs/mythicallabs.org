@@ -103,13 +103,25 @@ app.get('/photography/:page', (req, res) => {
 app.get('/photography/photo/:photo', async (req, res) => {
     const photo = req.params.photo;
     if(req.query.g){
-        try{
-        const photocropped = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(1920, 1080, { fit: sharp.fit.cover }).toBuffer()
-        res.set('Content-Type', 'image/jpeg');
-        res.send(photocropped);
-        }catch(err){
-            res.set('Content-Type', 'text/html');
-            deliver404error(req, res, err, 'Back to', 'photography', `There was an error loading that photo`);
+        const htl = req.query.g
+        if(htl == 'true'){
+            try{
+                const photoscaled = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(1920, 1080, { fit: sharp.fit.cover }).toBuffer()
+                res.set('Content-Type', 'image/jpeg');
+                res.send(photoscaled);
+            }catch(err){
+                res.set('Content-Type', 'text/html');
+                deliver404error(req, res, err, 'Back to', 'photography', `There was an error loading that photo`);
+            }
+        }else if(htl == 'r'){
+            try{
+                res.set('Content-Type', 'text/html');
+                const orgpage = await fs.readFileSync(path.join(process.cwd(), '/files/photography/pages/renderedphoto.html'))
+                const newpage = await orgpage.replace('<IMAGEPLACEHOLDER>', `<img src="/photography/photo/${photo}">`)
+            }catch(err){
+                res.set('Content-Type', 'text/html');
+                deliver404error(req, res, err, 'Back to', 'photography', 'There was an error loading that photo')
+            }
         }
     }else{
         try {
