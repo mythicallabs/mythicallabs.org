@@ -118,6 +118,7 @@ app.get('/photography/photo/:photo', async (req, res) => {
                 res.set('Content-Type', 'text/html');
                 const orgpage = await fs.readFileSync(path.join(process.cwd(), '/files/photography/pages/renderedphoto.html'))
                 const newpage = await orgpage.replace('<IMAGEPLACEHOLDER>', `<img src="/photography/photo/${photo}">`)
+                res.send(newpage)
             }catch(err){
                 res.set('Content-Type', 'text/html');
                 deliver404error(req, res, err, 'Back to', 'photography', 'There was an error loading that photo')
