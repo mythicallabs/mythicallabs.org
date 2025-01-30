@@ -102,16 +102,25 @@ app.get('/photography/:page', (req, res) => {
 })
 app.get('/photography/photo/:photo', async (req, res) => {
     const photo = req.params.photo;
-    try {
-        const filePath = path.join(process.cwd(), `/files/photography/photos/${photo}`);
-        
-        const image = await sharp(fs.readFileSync(filePath)).resize({ width: 1080 }).toBuffer();
-        
+    if(req.query.g){
+        try{
+        const photocropped = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(1920, 1080, { fit: sharp.fit.cover }).toBuffer()
         res.set('Content-Type', 'image/jpeg');
-        res.send(image);
-    } catch (err) {
-        res.set('Content-Type', 'text/html');
-        deliver404error(req, res, err, 'Back to', 'photography', `We couldn't find that photo`);
+        res.send(photocropped);
+        }catch(err){
+            res.set('Content-Type', 'text/html');
+            deliver404error(req, res, err, 'Back to', 'photography', `There was an error loading that photo`);
+        }
+    }else{
+        try {
+            const filePath = path.join(process.cwd(), `/files/photography/photos/${photo}`);
+            const image = await sharp(fs.readFileSync(filePath)).resize({ width: 1080 }).toBuffer();
+            res.set('Content-Type', 'image/jpeg');
+            res.send(image);
+        } catch (err) {
+            res.set('Content-Type', 'text/html');
+            deliver404error(req, res, err, 'Back to', 'photography', `We couldn't find that photo`);
+        }
     }
 });
 app.get('/file/:filetype/:filename', (req, res) => {
