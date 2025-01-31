@@ -1,3 +1,6 @@
+//All code written by Rainier Hughes
+//All code is not be copied, shared, or modified without written permisson from Rainier Hughes
+//(c)Rainier Hughes 2024
 async function addNav(){
     let navId = "#nav" + window.location.href.split('/').pop();
     console.log(navId)

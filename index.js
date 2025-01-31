@@ -1,3 +1,6 @@
+//All code written by Rainier Hughes
+//All code is not be copied, shared, or modified without written permisson from Rainier Hughes
+//(c)Rainier Hughes 2024
 const express = require('express');
 const fs = require('fs');
 const { console } = require('inspector');
@@ -73,20 +76,6 @@ app.get('/:page', (req, res) => {
             deliver404error(req, res, err, 'Back to', 'homepage')
         }
 });
-app.get('/projects/:projectname/:projectpage', (req, res) => {
-    const projectname = req.params.projectname
-    const projectpage = req.params.projectpage
-    if(projectpage == ''){
-        projectpage = 'index'
-    }
-    try{
-        res.set('Content-Type', 'text/html')
-        res.send(fs.readFileSync(path.join(process.cwd(), '/files/pages/projects/' + projectname + '/' + projectpage + '.html')))
-    }catch(err){
-        res.set('Content-Type', 'text/html')
-        deliver404error(req, res, err, 'Back to', 'projects')
-    }
-})
 app.get('/photography/:page', (req, res) => {
     const page = req.params.page
     if(page == ''){
@@ -157,6 +146,20 @@ app.get('/global/:file', (req, res) => {
         filePath = path.join(process.cwd(), `/files/global/mythicalglobal.css`)
     }
     res.send(fs.readFileSync(filePath))
+})
+app.get('/project', (req, res) => {
+    if(req.query.p){
+        try{
+            res.set('Content-Type', 'text/html');
+            res.send(fs.readFile(path.join(process.cwd(), `/files/pages/projects/${req.query.p}`)))
+        }catch(err){
+            res.set('Content-Type', 'text/html');
+            deliver404error(req, res, err, 'Back to', 'projects', `Error: That project path doesn't exsist`);
+        }
+    }else{
+        res.set('Content-Type', 'text/html');
+        deliver404error(req, res, err, 'Back to', 'projects', `Error: No project specified`);
+    }
 })
 const port = process.env.PORT || 3000;
 
