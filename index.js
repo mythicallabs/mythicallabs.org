@@ -20,7 +20,7 @@ app.get('/project', (req, res) => {
     if(req.query.page){
         try{
             res.set('Content-Type', 'text/html');
-            res.send(fs.readFile(path.join(process.cwd(), `/files/pages/projects/${req.query.page}.html`)))
+            res.send(fs.readFileSync(path.join(process.cwd(), `/files/pages/projects/${req.query.page}.html`)))
         }catch(err){
             res.set('Content-Type', 'text/html');
             deliver404error(req, res, err, 'Back to', 'projects', `Error: That project path doesn't exsist`);
