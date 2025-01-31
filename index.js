@@ -26,6 +26,7 @@ app.get('/project', (req, res) => {
             deliver404error(req, res, err, 'Back to', 'projects', `Error: That project path doesn't exsist`);
         }
     }else{
+        err=0
         res.set('Content-Type', 'text/html');
         deliver404error(req, res, err, 'Back to', 'projects', `Error: No project specified`);
     }
