@@ -7,26 +7,27 @@
     <script src="https://kihtrak.com/cloud_variable/cloudify.min.js"></script>
     <script>
       function loadAll(){
-boxPoints = 0
-cps = 0
-cpsps = 0
-employees = 0
-cpspsCostINT = 99999999
-cpspsCostDIS = 100000
-document.getElementById("clickspersecDIS").innerHTML = "Clicks Per Second: "+cps
-document.getElementById("cpspsPriceDIS").innerHTML = "Cost: "+cpspsCostDIS
-document.getElementById("boxpointsDIS").innerHTML = "Box Points: "+boxPoints
-employeePriceDIS = 1000
-employeePriceINT = 999
-clickerPriceDIS = 100
-clickerPriceINT = 99
-ascendPriceDIS = 100000000
-factoryPriceDIS = 3000
-factoryPriceINT = 2999
-document.getElementById("clickerPriceDIS").innerHTML = "Cost: "+clickerPriceDIS
-document.getElementById("employeePriceDIS").innerHTML = "Cost: "+employeePriceDIS
-document.getElementById("ascendPriceDIS").innerHTML = "Cost: "+ascendPriceDIS
-document.getElementById("factoryPriceDIS").innerHTML = "Cost: "+factoryPriceDIS
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        boxPoints = 0
+        cps = 0
+        cpsps = 0
+        employees = 0
+        cpspsCostINT = 99999999
+        cpspsCostDIS = 100000
+        document.getElementById("clickspersecDIS").innerHTML = "Clicks Per Second: "+cps
+        document.getElementById("cpspsPriceDIS").innerHTML = "Cost: "+cpspsCostDIS
+        document.getElementById("boxpointsDIS").innerHTML = "Box Points: "+boxPoints
+        employeePriceDIS = 1000
+        employeePriceINT = 999
+        clickerPriceDIS = 100
+        clickerPriceINT = 99
+        ascendPriceDIS = 100000000
+        factoryPriceDIS = 3000
+        factoryPriceINT = 2999
+        document.getElementById("clickerPriceDIS").innerHTML = "Cost: "+clickerPriceDIS
+        document.getElementById("employeePriceDIS").innerHTML = "Cost: "+employeePriceDIS
+        document.getElementById("ascendPriceDIS").innerHTML = "Cost: "+ascendPriceDIS
+        document.getElementById("factoryPriceDIS").innerHTML = "Cost: "+factoryPriceDIS
 
 }
 function addBoxPoint(){

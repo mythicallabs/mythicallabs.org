@@ -81,6 +81,16 @@ app.get('/search', (req, res) => {
         
     }
 })
+app.get('/thumbnail', async (req,res)=>{
+    if(req.query.q){
+        const photoscaled = await sharp(path.join(process.cwd(), `/files/images/thumbnails/${req.query.q}thumbnail.png`)).resize(100, 100, { fit: sharp.fit.cover }).toBuffer()
+        res.set('Content-Type', 'image/png');
+        res.send(photoscaled)
+    }else{
+        res.set('Content-Type', 'text/html');
+        deliver404error(req, res, 0, 'Back to', 'projects', 'Error: Query not specified')
+    }
+})
 app.get('/:page', (req, res) => {
     let page = req.params.page;
         try{
@@ -195,6 +205,6 @@ function deliver404error(req, res, err, message, backto, custommessage){
     fs.readFile(filePath, 'utf8', (err, data) => {
         data = data.replace(`<button class="button" onclick="window.location.href = '/about'">[BACKTO]</button>`, `<button class="button" onclick="window.location.href = '/${pagepath}'">${message} ${backto}</button>`);
         data = data.replace(`<p>[MESSAGE]</p>`, `<p>${pnfmessage}</p>`)
-        return res.send(data);
+        return res.status(404).send(data);
     });
 }
