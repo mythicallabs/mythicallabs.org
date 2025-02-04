@@ -2,8 +2,10 @@
 //All code is not be copied, shared, or modified without written permisson from Rainier Hughes
 //(c)Rainier Hughes 2024
 async function addNav(){
+    if(window.location.href.includes('project?p=')){
+        await $("#navout").load(`/navbar .nav`);
+    }else{
     let navId = "#nav" + window.location.href.split('/').pop();
-    console.log(navId)
     if(navId == '#nav'){
         navId = '#navhome';
     }
@@ -21,5 +23,6 @@ async function addNav(){
         background-color: #3a4add;
     }
     </style>`
+}
 }
 addNav()
