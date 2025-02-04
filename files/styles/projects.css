@@ -40,6 +40,7 @@ hr{
     max-width: 100px; /* Adjust the size as needed */
     height: auto;
     margin-right: 10px; /* Space between the image and the text */
+    border-radius: 20px;
 }
 .project-text {
     display: flex;

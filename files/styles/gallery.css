@@ -33,9 +33,8 @@ p{
     line-height: 1em;
 }
 .galleryimage{
-    max-width: 100%;
+    width: calc(25% - 10px);
     border-radius: 25px;
-    height:300px;
     margin: 5px;
 }
 .galleryimage:hover{
