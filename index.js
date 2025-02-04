@@ -83,7 +83,7 @@ app.get('/search', (req, res) => {
 })
 app.get('/thumbnail', async (req,res)=>{
     if(req.query.q){
-        const photoscaled = await sharp(path.join(process.cwd(), `/files/images/thumbnails/${req.query.q}thumbnail.png`)).resize(100, 100, { fit: sharp.fit.cover }).toBuffer()
+        const photoscaled = await sharp(path.join(process.cwd(), `/files/images/thumbnails/${req.query.q}thumbnail.png`)).resize(100, 80, { fit: sharp.fit.cover }).toBuffer()
         res.set('Content-Type', 'image/png');
         res.send(photoscaled)
     }else{
