@@ -25,12 +25,22 @@ async function addNav(){
         </style>`;
     }
 }
-async function hideNav() {
+async function hidenavarr() {
     document.querySelector(".navarrow.right").style.display = 'none';
 }
-function updatenavpos(){
+function isLocalStorageAvailable(){
+    var test = 'test';
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+function savenavpos(){
     var navElement = document.querySelector('.nav');
-    if (navElement) {
+    if(isLocalStorageAvailable()){
         window.addEventListener('beforeunload', function() {
             localStorage.setItem('navScrollPosition', navElement.scrollLeft);
         });
@@ -39,8 +49,24 @@ function updatenavpos(){
         if (scrollPosition) {
             navElement.scrollLeft = parseInt(scrollPosition);
         }
-    } else {
-        console.error('Element .nav not found');
+    }else{
+        window.addEventListener('beforeunload', function() {
+            document.cookie = `navScrollPosition=${navElement.scrollLeft}; expires=Fri, 31 Dec 2025 12:00:00 UTC; path=/`
+        });
+
+        var scrollPosition = function(){
+            let cookieArr = document.cookie.split(";");
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split("=");
+                if ('navScrollPosition' === cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+        return null;
+        }
+        if (scrollPosition != null) {
+            navElement.scrollLeft = parseInt(scrollPosition);
+        }
     }
 }
 addNav();
