@@ -32,8 +32,12 @@ async function isLocalStorageAvailable(){
     var test = 'test';
     try {
         localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return true;
+        if(localStorage.getItem('test') === 'test'){
+            localStorage.removeItem(test);
+            return true;
+        }else{
+            return false;
+        }
     } catch(e) {
         return false;
     }
@@ -59,13 +63,12 @@ async function savenavpos(){
             for (let i = 0; i < cookieArr.length; i++) {
                 let cookiePair = cookieArr[i].split("=");
                 if ('navScrollPosition' === cookiePair[0].trim()) {
-                    return cookiePair[1];
+                    return decodeURIComponent(cookiePair[1]);
                 }
             }
-        console.log('no cookie')
-        return null;
+        return false;
         }
-        if (scrollPosition != null) {
+        if (scrollPosition) {
             navElement.scrollLeft = parseInt(scrollPosition);
         }
     }
