@@ -44,16 +44,7 @@ async function isLocalStorageAvailable(){
 }
 async function savenavpos(){
     var navElement = document.querySelector('.nav');
-    if(await isLocalStorageAvailable()){
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('navScrollPosition', navElement.scrollLeft);
-        });
-
-        var scrollPosition = localStorage.getItem('navScrollPosition');
-        if (scrollPosition) {
-            navElement.scrollLeft = parseInt(scrollPosition);
-        }
-    }else{
+    
         window.addEventListener('beforeunload', function() {
             window.document.cookie = `navScrollPosition=${navElement.scrollLeft}; expires=Fri, 31 Dec 2025 12:00:00 UTC; path=/`
         });
@@ -71,6 +62,6 @@ async function savenavpos(){
         if (scrollPosition) {
             navElement.scrollLeft = parseInt(scrollPosition);
         }
-    }
+    
 }
 addNav();
