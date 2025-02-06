@@ -28,7 +28,7 @@ async function addNav(){
 async function hidenavarr() {
     document.querySelector(".navarrow.right").style.display = 'none';
 }
-function isLocalStorageAvailable(){
+async function isLocalStorageAvailable(){
     var test = 'test';
     try {
         localStorage.setItem(test, test);
@@ -38,9 +38,9 @@ function isLocalStorageAvailable(){
         return false;
     }
 }
-function savenavpos(){
+async function savenavpos(){
     var navElement = document.querySelector('.nav');
-    if(isLocalStorageAvailable()){
+    if(await isLocalStorageAvailable()){
         window.addEventListener('beforeunload', function() {
             localStorage.setItem('navScrollPosition', navElement.scrollLeft);
         });
@@ -51,17 +51,18 @@ function savenavpos(){
         }
     }else{
         window.addEventListener('beforeunload', function() {
-            document.cookie = `navScrollPosition=${navElement.scrollLeft}; expires=Fri, 31 Dec 2025 12:00:00 UTC; path=/`
+            window.document.cookie = `navScrollPosition=${navElement.scrollLeft}; expires=Fri, 31 Dec 2025 12:00:00 UTC; path=/`
         });
 
         var scrollPosition = function(){
-            let cookieArr = document.cookie.split(";");
+            let cookieArr = window.document.cookie.split(";");
             for (let i = 0; i < cookieArr.length; i++) {
                 let cookiePair = cookieArr[i].split("=");
                 if ('navScrollPosition' === cookiePair[0].trim()) {
-                    return decodeURIComponent(cookiePair[1]);
+                    return cookiePair[1];
                 }
             }
+        console.log('no cookie')
         return null;
         }
         if (scrollPosition != null) {
