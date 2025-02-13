@@ -14,13 +14,13 @@ async function a(){
     if(serveramt < 12){
         for(i=serveramt; 1 <= i; i--){
             let org = document.getElementById('photosout').innerHTML
-            let mod = org + `<img src='/photography/photo/${i}.jpg?g=true' class='galleryimage' onclick='window.location.href = "/photography/photo/${i}.jpg?g=rendered"'>`
+            let mod = org + `<img src='/photography/photo/${i}.jpg?g=true' class='galleryimage' onclick='window.location.href = "/photography/photo/${i}.jpg"'>`
             document.getElementById('photosout').innerHTML = mod
         }
     }else{
         for(i=12; 1 <= i; i--){
             let org = document.getElementById('photosout').innerHTML
-            let mod = org + `<img src='/photography/photo/${i}.jpg?g=true' class='galleryimage' onclick='window.location.href = "/photography/photo/${i}.jpg?g=rendered"'>`
+            let mod = org + `<img src='/photography/photo/${i}.jpg?g=true' class='galleryimage' onclick='window.location.href = "/photography/photo/${i}.jpg"'>`
             document.getElementById('photosout').innerHTML = mod
         }
     }

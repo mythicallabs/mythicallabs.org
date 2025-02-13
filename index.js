@@ -120,7 +120,7 @@ app.get('/photography/photo/:photo', async (req, res) => {
         const htl = req.query.g
         if(htl == 'true'){
             try{
-                const photoscaled = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(1920, 1080, { fit: sharp.fit.cover }).toBuffer()
+                const photoscaled = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(312, 175, { fit: sharp.fit.cover }).toBuffer()
                 res.set('Content-Type', 'image/jpeg');
                 res.send(photoscaled);
             }catch(err){
@@ -134,7 +134,7 @@ app.get('/photography/photo/:photo', async (req, res) => {
     }else{
         try {
             const filePath = path.join(process.cwd(), `/files/photography/photos/${photo}`);
-            const image = await sharp(fs.readFileSync(filePath)).resize({ width: 1080 }).toBuffer();
+            const image = await sharp(fs.readFileSync(filePath)).resize({ width: 2000 }).toBuffer();
             res.set('Content-Type', 'image/jpeg');
             res.send(image);
         } catch (err) {
