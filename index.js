@@ -120,12 +120,12 @@ app.get('/photography/photo/:photo', async (req, res) => {
         const htl = req.query.g
         if(htl == 'true'){
             try{
-                const photoscaled = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(1920, 1080, { fit: sharp.fit.cover }).toBuffer()
+                const photoscaled = await sharp(path.join(process.cwd(), `/files/photography/photos/${photo}`)).resize(312, 175, { fit: sharp.fit.cover }).toBuffer()
                 res.set('Content-Type', 'image/jpeg');
                 res.send(photoscaled);
             }catch(err){
                 res.set('Content-Type', 'text/html');
-                deliver404error(req, res, err, 'Back to', 'photography', `There was an error loading that photo`);
+                deliver404error(req, res, err, 'Back to', 'gallery', `There was an error loading that photo`);
             }
         }else if(htl == 'rendered'){
             res.set('Content-Type', 'text/html');
@@ -134,12 +134,12 @@ app.get('/photography/photo/:photo', async (req, res) => {
     }else{
         try {
             const filePath = path.join(process.cwd(), `/files/photography/photos/${photo}`);
-            const image = await sharp(fs.readFileSync(filePath)).resize({ width: 1080 }).toBuffer();
+            const image = await sharp(fs.readFileSync(filePath)).resize({ width: 2000 }).toBuffer();
             res.set('Content-Type', 'image/jpeg');
             res.send(image);
         } catch (err) {
             res.set('Content-Type', 'text/html');
-            deliver404error(req, res, err, 'Back to', 'photography', `We couldn't find that photo`);
+            deliver404error(req, res, err, 'Back to', 'gallery', `We couldn't find that photo`);
         }
     }
 });
@@ -198,6 +198,8 @@ function deliver404error(req, res, err, message, backto, custommessage){
     }
     if(backto == "homepage"){
         pagepath = ''
+    }else if(backto == 'gallery'){
+        pagepath = 'photography/gallery'
     }else{
         pagepath = backto
     }

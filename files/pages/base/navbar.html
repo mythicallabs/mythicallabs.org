@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<!--All code written by Rainier Hughes-->
-<!--All code is not be copied, shared, or modified without written permisson from Rainier Hughes-->
-<!--(c)Rainier Hughes 2025-->
-<html>
-    <head>
-        <link rel="stylesheet" href="/file/css/nav.css">
-    </head>
-    <body>
-        <nav class="nav">
-            <a class="navitem" href="/" id="navhome">Home</a>
-            <a class="navitem" href="/projects" id="navprojects">Projects</a>
-            <a class="navitem" href="/about" id="navabout">About</a>
-            <a class="navitem" href="/photography" id="navphotography">Photography</a>
-            <a class="navitem" href="/photography/gallery" id="navgallery">Gallery</a>
-        </nav>
-    </body>
-</html>
+<link rel="stylesheet" href="/file/css/nav.css">
+<nav class="nav" onscroll="hidenavarr()">
+    <a class="navitem" href="/" id="navhome">Home</a>
+    <a class="navitem" href="/projects" id="navprojects">Projects</a>
+    <a class="navitem" href="/about" id="navabout">About</a>
+    <a class="navitem" href="/photography" id="navphotography">Photography</a>
+    <a class="navitem" href="/photography/gallery" id="navgallery">Gallery</a>
+    <div class="navarrow right">
+        <img src="/file/png/navbararrowright.png" alt="Scroll Down" />
+    </div>
+    <script>savenavpos()</script>
+</nav>
+<div class="navspacer"></div>

@@ -1,8 +1,16 @@
-nav{
+nav {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    left: 0;
     background-color: #333;
     height: 70px;
 }
-.navitem{
+.navspacer {
+    height: 70px;
+    position: static;
+}
+.navitem {
     float: left;
     padding: 20px 30px 10px 30px;
     height: 40px;
@@ -10,7 +18,7 @@ nav{
     text-decoration: none;
     color: #dddddd;
 }
-.navactive{
+.navactive {
     float: left;
     padding: 20px 30px 10px 30px;
     height: 40px;
@@ -18,13 +26,13 @@ nav{
     text-decoration: none;
     background-color: #3a4add;
 }
-.navitem:hover{
+.navitem:hover {
     background-color: #222;
 }
-.navactive:hover{
+.navactive:hover {
     background-color: #3a4add;
 }
-.navsearch{
+.navsearch {
     font-size: 1.5em;
     margin: 17px;
     border: none;
@@ -33,32 +41,58 @@ nav{
     outline: none;
     color: gray;
 }
-.navsearch:focus{
+.navsearch:focus {
     color: #dddddd;
 }
-.navarrow.right{
-    display: none;
+.navarrow.right {
+    pointer-events: none;
+    display: none; /* Default hidden */
+    position: fixed;
+    top: 0; /* Adjust as needed */
+    height: 65px;
+    right: 0; /* Adjust as needed */
+    padding-top: 5px;
+    padding-right: 5px;
+    z-index: 1000; /* Ensure it appears above other elements */
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.3));
 }
-@media (max-width: 600px) {
-    .navarrow.right{
-        display: unset;
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 70px;
+.navarrow.right img {
+    pointer-events: none;
+    height: 60px;
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
+    animation: grow 10s ease-in-out 10s infinite;
+}
+@media (max-width: 726px) {
+    .navarrow.right {
+        display: block; /* Show on mobile */
     }
-    nav{
+    nav {
         overflow-x: scroll;
         overflow-y: hidden;
         scrollbar-width: 0px;
         display: flex;
     }
-    ::-webkit-scrollbar {
+    nav::-webkit-scrollbar {
         height: 0px;
         width: 0px;
         background: transparent; /* make scrollbar transparent */
     }
-    .navsearch{
+    .navsearch {
         display: none;
+    }
+}
+@keyframes grow {
+    0% {
+        transform: scale(1);
+    }
+    5%{
+        transform: scale(1.1);
+    }
+    10%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1);
     }
 }
