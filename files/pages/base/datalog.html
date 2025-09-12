@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Keypress to Text Converter</title>
+    <title>DataLog Viewer & Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
@@ -11,6 +11,9 @@
             font-family: 'Inter', sans-serif;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Pulsing background effect */
@@ -145,105 +148,256 @@
             padding-right: 0.5rem;
             white-space: pre-wrap;
         }
+
+        /* Nav Bar Styles */
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 relative">
-<div id="navout">
+<body class="bg-gray-900 text-white">
+
+    <!-- Sleek Navigation Bar -->
+    <nav class="frosted-glass sticky top-0 z-20 w-full px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4 hidden md:block">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="#" id="home-link" class="nav-link text-white hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent active">Home</a>
+                            <a href="#" id="downloads-link" class="nav-link text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Downloads</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <script src="/file/js/navloader.js"></script>
-    <div class="container-content w-full max-w-4xl flex flex-col items-center gap-6">
-        <div class="frosted-glass rounded-xl shadow-lg p-8 w-full flex flex-col items-center gap-6">
+    </nav>
+    
+    <main class="flex-grow flex flex-col items-center justify-center p-6">
+        <!-- Home Page Content -->
+        <section id="home-page" class="w-full">
+            <div class="container-content w-full max-w-4xl flex flex-col items-center gap-6 mx-auto">
+                <div class="frosted-glass rounded-xl shadow-lg p-8 w-full flex flex-col items-center gap-6">
 
-            <!-- Page Header -->
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-white text-center mb-4">JSON Keypress to Text Converter</h1>
-            <p class="text-gray-200 text-center mb-6">Select a local JSON file containing keypress data to view the resulting text.</p>
+                    <!-- Page Header -->
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white text-center mb-4">JSON Keypress to Text Converter</h1>
+                    <p class="text-gray-200 text-center mb-6">Select a local JSON file containing keypress data to view the resulting text.</p>
 
-            <!-- File Input -->
-            <label for="json-file-input" class="cursor-pointer bg-blue-600 shadow-md hover:bg-blue-700 hover:shadow-xl text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-110">
-                Choose JSON File
-            </label>
-            <input type="file" id="json-file-input" class="hidden" accept=".json">
+                    <!-- File Input -->
+                    <label for="json-file-input" class="cursor-pointer bg-blue-600 shadow-md hover:bg-blue-700 hover:shadow-xl text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-110">
+                        Choose JSON File
+                    </label>
+                    <input type="file" id="json-file-input" class="hidden" accept=".json">
 
-            <!-- Output Container (Initially Hidden) -->
-            <div id="output-container" class="hidden opacity-0 flex flex-col w-full gap-6 transition-all duration-700 ease-in-out transform -translate-y-2">
+                    <!-- Output Container (Initially Hidden) -->
+                    <div id="output-container" class="hidden opacity-0 flex flex-col w-full gap-6 transition-all duration-700 ease-in-out transform -translate-y-2">
 
-                <!-- The main text output area -->
-                <div class="w-full h-96 flex flex-col bg-gray-900 border border-gray-700 rounded-lg overflow-hidden relative">
-                    <!-- Loading Progress Bar -->
-                    <div id="loader" class="loader hidden">
-                        <div class="progress-bar-container">
-                            <div id="progress-bar" class="progress-bar"></div>
-                        </div>
-                        <p id="progress-text" class="text-sm mt-2 text-gray-300"></p>
-                    </div>
-                    
-                    <!-- Header with count and buttons -->
-                    <div class="flex-shrink-0 flex justify-between items-center bg-gray-700 bg-opacity-70 p-2 rounded-t-lg">
-                        <!-- Character Count Display -->
-                        <p id="char-count-display" class="p-1 rounded-md text-sm font-mono text-gray-300">Count: 0</p>
-                        <div class="flex flex-row gap-2">
-                            <!-- AI Correct Button -->
-                            <button id="ai-correct-button" class="relative p-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200" title="AI Correct Text" disabled>
-                                <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path d="M11.96 15.111l2.502 2.502L17 14.075M16 11V6a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m-6 3l1.85-2.775A.75.75 0 015.65 8H8.35a.75.75 0 01.6.225L10.8 11M3 11v6a2 2 0 002 2h4.5a2.5 2.5 0 002.5-2.5V14M17 11l-1.85 2.775A.75.75 0 0115.35 14H12.65a.75.75 0 01-.6-.225L10 11"/>
-                                </svg>
-                            </button>
-                            <!-- Compare Button -->
-                            <button id="compare-button" class="hidden relative p-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200" title="Compare Text">
-                                <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                </svg>
-                            </button>
-                            <!-- Copy Button -->
-                            <button id="copy-button" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200" title="Copy Text" disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                            </button>
-                            <!-- Download Button -->
-                            <button id="download-button" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200" title="Download Plaintext" disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Scrollable content area -->
-                    <div class="scrollable-content flex-grow overflow-y-auto px-4 pb-4">
-                        <!-- Plaintext Output -->
-                        <pre id="text-output" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
-                        <!-- AI Corrected Output -->
-                        <div id="ai-corrected-output" class="ai-corrected-output w-full">
-                            <pre id="ai-corrected-text" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
-                        </div>
-                        <!-- Comparison View -->
-                        <div id="comparison-view" class="comparison-view flex flex-col md:flex-row gap-4 w-full">
-                            <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg">
-                                <h3 class="text-lg font-semibold text-gray-300 mb-2">Original Text</h3>
-                                <pre id="original-text" class="text-sm text-gray-200 whitespace-pre-wrap"></pre>
-                            </div>
-                            <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg flex flex-col">
-                                <h3 class="text-lg font-semibold text-gray-300 mb-2">AI Corrected Text</h3>
-                                <div class="flex-grow flex flex-col md:flex-row">
-                                    <div id="diff-sidebar" class="hidden md:block diff-sidebar"></div>
-                                    <pre id="corrected-text" class="text-sm text-gray-200 whitespace-pre-wrap flex-grow"></pre>
+                        <!-- The main text output area -->
+                        <div class="w-full h-96 flex flex-col bg-gray-900 border border-gray-700 rounded-lg overflow-hidden relative">
+                            <!-- Loading Progress Bar -->
+                            <div id="loader" class="loader hidden">
+                                <div class="progress-bar-container">
+                                    <div id="progress-bar" class="progress-bar"></div>
                                 </div>
-                                <div class="flex flex-row gap-4 mt-2 text-sm text-gray-400">
-                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> Addition</span>
-                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> Deletion</span>
+                                <p id="progress-text" class="text-sm mt-2 text-gray-300"></p>
+                            </div>
+                            
+                            <!-- Header with count and buttons -->
+                            <div class="flex-shrink-0 flex justify-between items-center bg-gray-700 bg-opacity-70 p-2 rounded-t-lg">
+                                <!-- Character Count Display -->
+                                <p id="char-count-display" class="p-1 rounded-md text-sm font-mono text-gray-300">Count: 0</p>
+                                <div class="flex flex-row gap-2">
+                                    <!-- AI Correct Button -->
+                                    <button id="ai-correct-button" class="relative p-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200" title="AI Correct Text" disabled>
+                                        <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path d="M11.96 15.111l2.502 2.502L17 14.075M16 11V6a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m-6 3l1.85-2.775A.75.75 0 015.65 8H8.35a.75.75 0 01.6.225L10.8 11M3 11v6a2 2 0 002 2h4.5a2.5 2.5 0 002.5-2.5V14M17 11l-1.85 2.775A.75.75 0 0115.35 14H12.65a.75.75 0 01-.6-.225L10 11"/>
+                                        </svg>
+                                    </button>
+                                    <!-- Compare Button -->
+                                    <button id="compare-button" class="hidden relative p-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200" title="Compare Text">
+                                        <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                        </svg>
+                                    </button>
+                                    <!-- Copy Button -->
+                                    <button id="copy-button" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200" title="Copy Text" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                    </button>
+                                    <!-- Download Button -->
+                                    <button id="download-button" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200" title="Download Plaintext" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Scrollable content area -->
+                            <div class="scrollable-content flex-grow overflow-y-auto px-4 pb-4">
+                                <!-- Plaintext Output -->
+                                <pre id="text-output" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
+                                <!-- AI Corrected Output -->
+                                <div id="ai-corrected-output" class="ai-corrected-output w-full">
+                                    <pre id="ai-corrected-text" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
+                                </div>
+                                <!-- Comparison View -->
+                                <div id="comparison-view" class="comparison-view flex flex-col md:flex-row gap-4 w-full">
+                                    <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg">
+                                        <h3 class="text-lg font-semibold text-gray-300 mb-2">Original Text</h3>
+                                        <pre id="original-text" class="text-sm text-gray-200 whitespace-pre-wrap"></pre>
+                                    </div>
+                                    <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg flex flex-col">
+                                        <h3 class="text-lg font-semibold text-gray-300 mb-2">AI Corrected Text</h3>
+                                        <div class="flex-grow flex flex-col md:flex-row">
+                                            <div id="diff-sidebar" class="hidden md:block diff-sidebar"></div>
+                                            <pre id="corrected-text" class="text-sm text-gray-200 whitespace-pre-wrap flex-grow"></pre>
+                                        </div>
+                                        <div class="flex flex-row gap-4 mt-2 text-sm text-gray-400">
+                                            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> Addition</span>
+                                            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> Deletion</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <!-- Downloads Page Content -->
+        <section id="downloads-page" class="hidden w-full">
+            <div class="container-content w-full max-w-4xl flex flex-col items-center gap-6 mx-auto">
+                <div class="frosted-glass rounded-xl shadow-lg p-8 w-full">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white text-center mb-8">Downloads</h1>
+                    <div class="space-y-4">
+                        <!-- Download Item 1 -->
+                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="font-semibold text-lg">keypress_data_example.json</h3>
+                                <p class="text-sm text-gray-400">An example JSON file with keypress data for testing.</p>
+                            </div>
+                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="example.json">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                        <!-- Download Item 2 -->
+                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="font-semibold text-lg">output_text_sample.txt</h3>
+                                <p class="text-sm text-gray-400">A sample plain text file generated from keypress data.</p>
+                            </div>
+                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="sample.txt">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                         <!-- Download Item 3 -->
+                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="font-semibold text-lg">analysis_report_template.pdf</h3>
+                                <p class="text-sm text-gray-400">A blank PDF template for reporting on data analysis.</p>
+                            </div>
+                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="template.pdf">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
+        // --- Navigation Logic ---
+        const homeLink = document.getElementById('home-link');
+        const downloadsLink = document.getElementById('downloads-link');
+        const homePage = document.getElementById('home-page');
+        const downloadsPage = document.getElementById('downloads-page');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function showPage(pageToShow) {
+            homePage.classList.add('hidden');
+            downloadsPage.classList.add('hidden');
+            pageToShow.classList.remove('hidden');
+        }
+
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(link => link.classList.remove('active'));
+            homeLink.classList.add('active');
+            showPage(homePage);
+        });
+
+        downloadsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(link => link.classList.remove('active'));
+            downloadsLink.classList.add('active');
+            showPage(downloadsPage);
+        });
+
+        // --- Download Links Logic ---
+        document.querySelectorAll('.download-link-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const fileName = this.getAttribute('data-file');
+                let content = '';
+                let mimeType = '';
+                
+                // Create dummy file content
+                if (fileName === 'example.json') {
+                    mimeType = 'application/json';
+                    content = JSON.stringify([
+                        {"key": "'H'", "timestamp": 1672531201},
+                        {"key": "'e'", "timestamp": 1672531202},
+                        {"key": "'l'", "timestamp": 1672531203},
+                        {"key": "'l'", "timestamp": 1672531204},
+                        {"key": "'o'", "timestamp": 1672531205}
+                    ], null, 2);
+                } else if (fileName === 'sample.txt') {
+                    mimeType = 'text/plain';
+                    content = 'This is a sample text file.';
+                } else if (fileName === 'template.pdf') {
+                    // Creating a dummy PDF is complex, so we'll just alert the user for this example.
+                    alert("This is a placeholder for a PDF download.");
+                    return;
+                }
+
+                const blob = new Blob([content], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+
+
+        // --- Original Page Logic ---
         // Get the input and output elements from the DOM
         const fileInput = document.getElementById('json-file-input');
         const charCountDisplay = document.getElementById('char-count-display');
