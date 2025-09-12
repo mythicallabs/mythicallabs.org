@@ -63,7 +63,7 @@
             border: 1px solid rgba(75, 85, 99, 0.5);
         }
 
-        #copy-button, #download-button {
+        #copy-button, #download-button, #ai-correct-button, #compare-button {
             transition: background-color 0.2s, transform 0.2s;
         }
         
@@ -72,18 +72,85 @@
             position: relative; /* Ensure content is on top */
         }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        /* Loader */
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            inset: 0;
+            background-color: rgba(17, 24, 39, 0.9);
+            z-index: 10;
+        }
+        
+        .progress-bar-container {
+            width: 80%;
+            max-width: 400px;
+            height: 8px;
+            background-color: #374151;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        .loader {
-            animation: spin 1s linear infinite;
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #3b82f6;
+            transition: width 0.3s ease-in-out;
+        }
+
+        @keyframes pulse-bar {
+            0% { transform: scaleX(0); opacity: 0.5; }
+            50% { transform: scaleX(1); opacity: 1; }
+            100% { transform: scaleX(0); opacity: 0.5; }
+        }
+
+        .pulse-bar {
+            animation: pulse-bar 2s infinite ease-in-out;
+            transform-origin: left;
+        }
+
+        .ai-corrected-output {
+            display: none;
+        }
+
+        .active-output {
+            display: flex;
+        }
+
+        .comparison-view {
+            display: none;
+        }
+        
+        .diff-sidebar {
+            width: 40px;
+            flex-shrink: 0;
+            background-color: #1f2937;
+            border-right: 1px solid #4b5563;
+        }
+
+        .diff-added {
+            background-color: rgba(16, 185, 129, 0.2); /* Green */
+            color: #10b981;
+        }
+
+        .diff-deleted {
+            background-color: rgba(239, 68, 68, 0.2); /* Red */
+            color: #ef4444;
+        }
+
+        .diff-line {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            white-space: pre-wrap;
         }
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 relative">
-
+<div id="navout">
+        </div>
+        <script src="/file/js/navloader.js"></script>
     <div class="container-content w-full max-w-4xl flex flex-col items-center gap-6">
         <div class="frosted-glass rounded-xl shadow-lg p-8 w-full flex flex-col items-center gap-6">
 
@@ -102,12 +169,12 @@
 
                 <!-- The main text output area -->
                 <div class="w-full h-96 flex flex-col bg-gray-900 border border-gray-700 rounded-lg overflow-hidden relative">
-                    <!-- Loading Spinner -->
-                    <div id="loader" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 z-10 hidden">
-                        <svg class="loader h-12 w-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                    <!-- Loading Progress Bar -->
+                    <div id="loader" class="loader hidden">
+                        <div class="progress-bar-container">
+                            <div id="progress-bar" class="progress-bar"></div>
+                        </div>
+                        <p id="progress-text" class="text-sm mt-2 text-gray-300"></p>
                     </div>
                     
                     <!-- Header with count and buttons -->
@@ -115,6 +182,20 @@
                         <!-- Character Count Display -->
                         <p id="char-count-display" class="p-1 rounded-md text-sm font-mono text-gray-300">Count: 0</p>
                         <div class="flex flex-row gap-2">
+                            <!-- AI Correct Button -->
+                            <button id="ai-correct-button" class="relative p-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200" title="AI Correct Text" disabled>
+                                <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path d="M11.96 15.111l2.502 2.502L17 14.075M16 11V6a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m-6 3l1.85-2.775A.75.75 0 015.65 8H8.35a.75.75 0 01.6.225L10.8 11M3 11v6a2 2 0 002 2h4.5a2.5 2.5 0 002.5-2.5V14M17 11l-1.85 2.775A.75.75 0 0115.35 14H12.65a.75.75 0 01-.6-.225L10 11"/>
+                                </svg>
+                            </button>
+                            <!-- Compare Button -->
+                            <button id="compare-button" class="hidden relative p-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200" title="Compare Text">
+                                <span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                </svg>
+                            </button>
                             <!-- Copy Button -->
                             <button id="copy-button" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200" title="Copy Text" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -134,8 +215,29 @@
                     <div class="scrollable-content flex-grow overflow-y-auto px-4 pb-4">
                         <!-- Plaintext Output -->
                         <pre id="text-output" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
+                        <!-- AI Corrected Output -->
+                        <div id="ai-corrected-output" class="ai-corrected-output w-full">
+                            <pre id="ai-corrected-text" class="text-sm text-gray-200 w-full whitespace-pre-wrap"></pre>
+                        </div>
+                        <!-- Comparison View -->
+                        <div id="comparison-view" class="comparison-view flex flex-col md:flex-row gap-4 w-full">
+                            <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg">
+                                <h3 class="text-lg font-semibold text-gray-300 mb-2">Original Text</h3>
+                                <pre id="original-text" class="text-sm text-gray-200 whitespace-pre-wrap"></pre>
+                            </div>
+                            <div class="md:w-1/2 p-2 bg-gray-800 rounded-lg flex flex-col">
+                                <h3 class="text-lg font-semibold text-gray-300 mb-2">AI Corrected Text</h3>
+                                <div class="flex-grow flex flex-col md:flex-row">
+                                    <div id="diff-sidebar" class="hidden md:block diff-sidebar"></div>
+                                    <pre id="corrected-text" class="text-sm text-gray-200 whitespace-pre-wrap flex-grow"></pre>
+                                </div>
+                                <div class="flex flex-row gap-4 mt-2 text-sm text-gray-400">
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> Addition</span>
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> Deletion</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -149,12 +251,24 @@
         const downloadButton = document.getElementById('download-button');
         const outputContainer = document.getElementById('output-container');
         const loader = document.getElementById('loader');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
         const textOutput = document.getElementById('text-output');
+        const aiCorrectButton = document.getElementById('ai-correct-button');
+        const compareButton = document.getElementById('compare-button');
+        const aiCorrectedOutput = document.getElementById('ai-corrected-output');
+        const aiCorrectedText = document.getElementById('ai-corrected-text');
+        const originalText = document.getElementById('original-text');
+        const correctedText = document.getElementById('corrected-text');
+        const comparisonView = document.getElementById('comparison-view');
+        const diffSidebar = document.getElementById('diff-sidebar');
 
         // Text generation variables
         let totalKeypresses = 0;
         let finalText = '';
-        let visibleCharacters = [];
+        let correctedFinalText = '';
+        let jsonDataFromInput = null; // Store the original JSON data
+        const maxRetries = 3;
 
         // Add an event listener to the file input
         fileInput.addEventListener('change', (event) => {
@@ -163,27 +277,35 @@
             // Reset state and UI
             totalKeypresses = 0;
             finalText = '';
-            visibleCharacters = [];
+            correctedFinalText = '';
+            jsonDataFromInput = null;
             charCountDisplay.textContent = 'Count: 0';
             copyButton.disabled = true;
             downloadButton.disabled = true;
+            aiCorrectButton.disabled = true;
+            compareButton.classList.add('hidden');
             textOutput.textContent = ''; // Clear previous text
-
+            aiCorrectedOutput.style.display = 'none';
+            comparisonView.style.display = 'none';
+            progressBar.classList.remove('pulse-bar');
+            progressBar.style.width = '0%';
+            
             if (file) {
                 if (file.type === 'application/json' || file.name.endsWith('.json')) {
                     const reader = new FileReader();
 
                     reader.onload = (e) => {
                         try {
-                            const jsonData = JSON.parse(e.target.result);
+                            jsonDataFromInput = JSON.parse(e.target.result);
 
-                            if (Array.isArray(jsonData)) {
+                            if (Array.isArray(jsonDataFromInput)) {
                                 // Show output container and loader
                                 outputContainer.classList.remove('hidden');
                                 loader.classList.remove('hidden');
 
                                 // Parse data and populate finalText
-                                jsonData.forEach(item => {
+                                let visibleCharacters = [];
+                                jsonDataFromInput.forEach(item => {
                                     totalKeypresses++;
                                     const key = item.key;
                                     
@@ -207,10 +329,12 @@
                                 setTimeout(() => {
                                     // Update UI with the final result
                                     textOutput.textContent = finalText;
+                                    textOutput.style.display = 'block';
                                     charCountDisplay.textContent = `Count: ${visibleCharacters.length}`;
                                     loader.classList.add('hidden');
                                     copyButton.disabled = false;
                                     downloadButton.disabled = false;
+                                    aiCorrectButton.disabled = false;
                                 }, 1000); // 1-second delay to show the loader
 
                                 // Start the container entrance animation
@@ -235,9 +359,10 @@
 
         // Add event listener for the copy button
         copyButton.addEventListener('click', () => {
-            if (finalText.trim() !== '') {
+            const textToCopy = correctedFinalText || finalText;
+            if (textToCopy.trim() !== '') {
                 const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = finalText;
+                tempTextArea.value = textToCopy;
                 document.body.appendChild(tempTextArea);
                 tempTextArea.select();
                 document.execCommand('copy');
@@ -256,8 +381,9 @@
 
         // Add event listener for the download button
         downloadButton.addEventListener('click', () => {
-            if (finalText.trim() !== '') {
-                const blob = new Blob([finalText], { type: 'text/plain' });
+            const textToDownload = correctedFinalText || finalText;
+            if (textToDownload.trim() !== '') {
+                const blob = new Blob([textToDownload], { type: 'text/plain' });
                 const url = URL.createObjectURL(blob);
                 
                 const a = document.createElement('a');
@@ -279,6 +405,225 @@
                 }, 2000);
             }
         });
+
+        // Add event listener for the AI Correct button
+        aiCorrectButton.addEventListener('click', () => {
+            if (jsonDataFromInput) {
+                performAICorrection();
+            }
+        });
+
+        // Add event listener for the Compare button
+        compareButton.addEventListener('click', () => {
+            toggleCompareView();
+        });
+
+        async function performAICorrection(retries = 0, delay = 1000) {
+            // Check for max retries to prevent an infinite loop
+            if (retries >= maxRetries) {
+                loader.classList.add('hidden');
+                aiCorrectedText.textContent = "Failed to perform AI correction after multiple attempts. The AI response was incomplete or malformed.";
+                console.error("Failed to perform AI correction after max retries.");
+                return;
+            }
+
+            // Show initial loader for sending request
+            loader.classList.remove('hidden');
+            progressText.textContent = 'Sending request...';
+            progressBar.classList.add('pulse-bar');
+            
+            // Hide original text and show AI corrected output container
+            textOutput.style.display = 'none';
+            aiCorrectedOutput.style.display = 'block';
+
+            const apiKey = "AIzaSyB77dxop4zyukJ4b_bXHFZAwKobt-JBAIA";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const systemPrompt = "You are a JavaScript AI assistant. Your task is to analyze a sequence of keypress events and interpret the user's intended text. You must correct any typos or misspellings and format the output as an an array of objects, where each object contains the corrected text and the timestamp of the keypress. Consolidate consecutive character keypresses into a single 'correctedText' string until a non-character key (like 'enter' or 'space') is encountered.";
+            
+            const userQuery = `Analyze the following JSON keypress data and return the corrected, intended text with timestamps. JSON data: ${JSON.stringify(jsonDataFromInput)}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "correctedText": { "type": "STRING" },
+                                "timestamp": { "type": "NUMBER" }
+                            },
+                            "propertyOrdering": ["correctedText", "timestamp"]
+                        }
+                    }
+                }
+            };
+            
+            try {
+                // Wait for the request to be sent
+                const responsePromise = fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Calculate estimated generation time based on input size
+                const inputSize = JSON.stringify(jsonDataFromInput).length;
+                const charactersPerSecond = 500; // An arbitrary estimate
+                const estimatedTimeInSeconds = Math.max(1, inputSize / charactersPerSecond); // Minimum 1 second
+                
+                // Switch to the generating progress bar
+                progressBar.classList.remove('pulse-bar');
+                progressText.textContent = 'Generating...';
+
+                let startTime = Date.now();
+                const updateInterval = 50; // Update every 50ms
+                const intervalId = setInterval(() => {
+                    const elapsedTime = (Date.now() - startTime) / 1000;
+                    const progress = Math.min(100, (elapsedTime / estimatedTimeInSeconds) * 100);
+                    progressBar.style.width = `${progress}%`;
+                }, updateInterval);
+
+                const response = await responsePromise;
+
+                if (!response.ok) {
+                    clearInterval(intervalId);
+                    progressBar.style.width = '100%';
+                    progressText.textContent = 'Error!';
+                    
+                    if (response.status === 401) {
+                         aiCorrectedText.textContent = "API request failed with status 401: Unauthorized. Please check if the API key is valid.";
+                         console.error("API request failed with status: 401 Unauthorized. The API key may be invalid.");
+                         return;
+                    }
+                    if (response.status === 503) {
+                         aiCorrectedText.textContent = "AI service is currently unavailable. Please try again in a few moments.";
+                    } else {
+                        aiCorrectedText.textContent = `API request failed with status: ${response.status}. Please check your network and try again.`;
+                    }
+                    console.error(`API request failed with status: ${response.status}`);
+                    return;
+                }
+
+                const result = await response.json();
+
+                clearInterval(intervalId);
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Done!';
+
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const json = candidate.content.parts[0].text;
+                    try {
+                        const parsedJson = JSON.parse(json);
+                        displayCorrectedText(parsedJson);
+                    } catch (parseError) {
+                        console.error("AI response was not valid JSON. Retrying...", parseError);
+                        aiCorrectedText.textContent = "AI response was not valid JSON. Retrying...";
+                        setTimeout(() => performAICorrection(retries + 1, delay * 2), delay);
+                        return;
+                    }
+                } else {
+                    console.error("AI could not generate a valid response. Retrying...", result);
+                    aiCorrectedText.textContent = "AI could not generate a valid response. Retrying...";
+                    setTimeout(() => performAICorrection(retries + 1, delay * 2), delay);
+                    return;
+                }
+            } catch (error) {
+                console.error("Failed to perform AI correction:", error);
+                aiCorrectedText.textContent = "An error occurred while connecting to the AI. Please try again.";
+                loader.classList.add('hidden');
+            } finally {
+                // Hide loader after a brief delay
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500);
+            }
+        }
+
+        function displayCorrectedText(data) {
+            let output = '';
+            data.forEach(item => {
+                // Replaced the newline with a space to create a single paragraph.
+                output += `${item.correctedText} `;
+            });
+            correctedFinalText = output;
+            aiCorrectedText.textContent = correctedFinalText;
+            
+            // Swap the buttons
+            aiCorrectButton.classList.add('hidden');
+            compareButton.classList.remove('hidden');
+        }
+
+        function toggleCompareView() {
+            if (comparisonView.style.display === 'flex') {
+                // Switch back to single AI corrected view
+                comparisonView.style.display = 'none';
+                aiCorrectedOutput.style.display = 'block';
+                compareButton.innerHTML = `<span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                            </svg>`;
+                compareButton.title = "Compare Text";
+            } else {
+                // Switch to comparison view
+                aiCorrectedOutput.style.display = 'none';
+                textOutput.style.display = 'none';
+                comparisonView.style.display = 'flex';
+
+                originalText.textContent = finalText;
+                correctedText.textContent = correctedFinalText;
+
+                generateDiffSidebar();
+
+                compareButton.innerHTML = `<span class="absolute -top-1 -left-3 bg-gray-700 text-gray-200 text-[10px] px-1.5 py-0.5 rounded-full z-10">beta</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                                            </svg>`;
+                compareButton.title = "Hide Comparison";
+            }
+        }
+
+        function generateDiffSidebar() {
+            const originalLines = finalText.split('\n');
+            const correctedLines = correctedFinalText.split('\n');
+
+            diffSidebar.innerHTML = '';
+            
+            // Simple line-by-line diff.
+            // A more advanced character-by-character diff is not included
+            // to keep the code concise and self-contained in a single file.
+            let i = 0, j = 0;
+            while (i < originalLines.length || j < correctedLines.length) {
+                const originalLine = originalLines[i] || '';
+                const correctedLine = correctedLines[j] || '';
+
+                if (originalLine === correctedLine) {
+                    // Unchanged line, add a placeholder
+                    diffSidebar.innerHTML += `<div class="diff-line text-gray-400"> </div>`;
+                    i++;
+                    j++;
+                } else {
+                    // Deletion or change
+                    if (originalLines[i] && originalLines[i] !== correctedLines[j-1]) {
+                        diffSidebar.innerHTML += `<div class="diff-line diff-deleted">-</div>`;
+                        i++;
+                    }
+                    // Addition or change
+                    if (correctedLines[j] && correctedLines[j] !== originalLines[i-1]) {
+                        diffSidebar.innerHTML += `<div class="diff-line diff-added">+</div>`;
+                        j++;
+                    }
+                }
+            }
+            diffSidebar.style.display = 'block';
+        }
+
     </script>
 </body>
 </html>
