@@ -290,7 +290,7 @@
                                 <h3 class="font-semibold text-lg">datalogv1.1</h3>
                                 <p class="text-sm text-gray-400">Download datalog keylogger for windows</p>
                             </div>
-                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="example.json">
+                            <a href="#" class="download-link-btn ml-4 flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center" data-file="datalogv1.1">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
@@ -363,16 +363,6 @@
                     document.body.removeChild(link);
                     URL.revokeObjectURL(link.href);
                 }
-
-                const blob = new Blob([content], { type: mimeType });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
             });
         });
 
