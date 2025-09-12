@@ -336,32 +336,10 @@
             button.addEventListener('click', async function(e) {
                 e.preventDefault();
                 const fileName = this.getAttribute('data-file');
-                let content = '';
-                let mimeType = '';
                 
                 // Create dummy file content
                 if (fileName === 'datalogv1.1') {
-                    url = 'https://mythicallabs.tech/file/app/datalogv1-1.zip'
-                    filename = 'datalogv1.1.zip'
-                    // Fetch the ZIP file
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                    throw new Error(`Failed to fetch file: ${response.statusText}`);
-                    }
-
-                    // Convert the response to a Blob
-                    const blob = await response.blob();
-
-                    // Create a temporary link element
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = filename;
-
-                    // Append the link to the document, trigger the download, and clean up
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(link.href);
+                    document.location.href = '/file/app/datalogv1-1.zip'
                 }
             });
         });

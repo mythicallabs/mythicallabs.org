@@ -159,8 +159,14 @@ app.get('/file/:filetype/:filename', (req, res) => {
         res.set('Content-Type', 'image/png');
         filePath = path.join(process.cwd(), `/files/images/${filename}`)
     }else if(filetype == 'app'){
-        res.set('Content-Type', 'application/zip');
-        filePath = path.join(process.cwd(), `/files/applications/${filename}`)
+        const filePath = path.join(__dirname, 'files', 'applications', filename); // Adjust the path to your zip file
+        res.download(filePath, filename, (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+            res.status(500).send('Error downloading the file.');
+        }
+  });
+
     }
     res.send(fs.readFileSync(filePath))
 })
